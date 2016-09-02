@@ -41,7 +41,7 @@ namespace ProcessDemo
         void StartProcess()
         {
             string strPath = Environment.CurrentDirectory + "\\Test\\Tested.exe";
-            m_process = Process.Start(strPath, "我是天才127.0.0.1");
+            m_process = Process.Start(strPath, "127.0.0.1");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -139,7 +139,7 @@ namespace ProcessDemo
 
         private void Form1_Click(object sender, EventArgs e)
         {
-            this.contextMenuStrip1.Show(Cursor.Position);
+            //this.contextMenuStrip1.Show(Cursor.Position);
         }
 
 
