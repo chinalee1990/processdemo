@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessDemo", "ProcessDemo\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tested", "Tested\Tested.csproj", "{CF1250E3-D8F7-4C3D-B685-D888E98CC19F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HookLib", "ClassLibrary1\HookLib.csproj", "{C8B15700-AC15-4519-9A2B-63B495F215EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CF1250E3-D8F7-4C3D-B685-D888E98CC19F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF1250E3-D8F7-4C3D-B685-D888E98CC19F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF1250E3-D8F7-4C3D-B685-D888E98CC19F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8B15700-AC15-4519-9A2B-63B495F215EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B15700-AC15-4519-9A2B-63B495F215EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B15700-AC15-4519-9A2B-63B495F215EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B15700-AC15-4519-9A2B-63B495F215EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

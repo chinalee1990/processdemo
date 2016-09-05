@@ -9,7 +9,9 @@ using System.Windows.Forms;
 using System.Diagnostics;
 
 
-using System.Runtime.InteropServices;  
+using System.Runtime.InteropServices;
+
+using sHook;
 
 
 namespace ProcessDemo
@@ -18,7 +20,10 @@ namespace ProcessDemo
     public partial class Form1 : Form
     {
         Process m_process;
-        Form2 m_form2; 
+        Form2 m_form2;
+
+        private sHook.HookBase m_hook = null;
+
         public Form1()
         {
             InitializeComponent();
@@ -31,8 +36,15 @@ namespace ProcessDemo
             this.KeyPreview = true;
             //m_form2 = new Form2();
             //m_form2.Show();
+
         }
 
+
+        /// <summary>
+        /// 启动进程
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             StartProcess();
@@ -44,6 +56,11 @@ namespace ProcessDemo
             m_process = Process.Start(strPath, "127.0.0.1");
         }
 
+        /// <summary>
+        /// 结束进程
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             CloseProcess();
@@ -68,49 +85,40 @@ namespace ProcessDemo
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             CloseProcess();
+            CloseHook();
         }
 
-        [DllImport("user32.dll")]
-        public static extern void SwitchToThisWindow(IntPtr hWnd, bool fAltTab);
 
-
-        [DllImport("user32.dll", EntryPoint = "ShowWindow", CharSet = CharSet.Auto)]
-        public static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
-        //[DllImport("user32.dll")]
-        //public static extern void SwitchToThisWindow(IntPtr hWnd, bool fAltTab);
-        public const int SW_SHOWMAXIMIZED = 3;
-        //public const  int SW_MAXIMIZE = 3;
-        public const int SW_SHOWNOACTIVATE = 4;
-        //public const int SW_SHOW = 5;
-        private const int WM_CLOSE = 0x0010;
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern int SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int Width, int Height, int flags);
-
-        [DllImport("user32.dll")]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         private void Form1_Activated(object sender, EventArgs e)
         {
+            Debug.Print("\r\nForm1_Activated");
 
             textBox1.Text = "激活";
+
             //m_form2.Activate();
+
+            //if (bFlag==true)
+            //{
             try
             {
-                SwitchToThisWindow(m_process.MainWindowHandle, true);
-               // ShowWindow(m_process.MainWindowHandle, SW_SHOWNOACTIVATE);
-                //SetWindowPos(m_process.MainWindowHandle, -1, 0, 0, 0, 0, 1 | 2);
-                SetForegroundWindow(this.Handle);
-                //this.TopMost = true;
-                //Control control = Control.FromHandle(m_process.MainWindowHandle);
-                //Form form = (Form)control;
-                //form.Activate();
-                Debug.Print("激活窗口成功");
+                WindowApi.SetForegroundWindow(m_process.MainWindowHandle);
+                Debug.Print("子进程窗口激活成功");
+                //bFlag = false;
             }
             catch
             {
-                Debug.Print("激活窗口失败：进程无效");
+                Debug.Print("子进程窗口激活成功：进程无效");
             }
+            //}
+            //else
+            //{
+            //    bFlag = true;
+            //}
+
+            WindowApi.SwitchToThisWindow(this.Handle, true);
+            Debug.Print("激活当前窗口成功");
+            
         }
 
         private void Form1_Deactivate(object sender, EventArgs e)
@@ -126,12 +134,6 @@ namespace ProcessDemo
             }
         }
 
-        private void Form1_Shown(object sender, EventArgs e)
-        {
-            Debug.Print("Form1_Shown");
-
-        }
-
         private void 关闭ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -142,6 +144,52 @@ namespace ProcessDemo
             //this.contextMenuStrip1.Show(Cursor.Position);
         }
 
+
+        void OpenHook()
+        {
+
+            //hook = new sHook.PublicHook(MyKeyboardProc);
+
+            m_hook = new sHook.PrivateHook(MyKeyboardProc);
+            int nHook = m_hook.SetWindowsHookEx();
+            if (nHook == 0)
+            {
+                MessageBox.Show("设置钩子失败!");
+            }
+        }
+
+        void CloseHook()
+        {
+            try
+            {
+                m_hook.UnhookWindowsHookEx();
+            }
+            catch
+            {
+                Debug.Print("取消钩子失败");
+            }
+        }
+
+        public int MyKeyboardProc(int nCode, int wParm, int lParam)
+        {
+            if ((char)wParm == (char)Keys.Escape)
+            {
+                MessageBox.Show("你已经按下了Esc!");
+                this.Close();
+                return 1;
+            }
+            else
+            {
+                MessageBox.Show("你已经按下了按钮!");
+                return m_hook.CallNextHookEx(nCode, (IntPtr)wParm, (IntPtr)lParam);
+
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            //OpenHook();
+        }
 
     }
 }
