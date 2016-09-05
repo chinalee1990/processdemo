@@ -17,14 +17,14 @@ using sHook;
 namespace ProcessDemo
 {
     
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         Process m_process;
         Form2 m_form2;
 
         private sHook.HookBase m_hook = null;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             int nScreenWidth = Screen.PrimaryScreen.WorkingArea.Width;
@@ -96,34 +96,46 @@ namespace ProcessDemo
 
             textBox1.Text = "激活";
 
-            //m_form2.Activate();
-
-            //if (bFlag==true)
+            //if (m_bAcivateSub==false)
             //{
+                ActivateSub();
+            //}
+
+            //if (m_bActivateThis==false)
+            //{
+                ActivateThis();
+            //}   
+        }
+
+        bool m_bAcivateSub = false;
+        bool m_bActivateThis = false;
+        void ActivateSub()
+        {
             try
             {
-                WindowApi.SetForegroundWindow(m_process.MainWindowHandle);
+                //WindowApi.SetForegroundWindow(m_process.MainWindowHandle);
                 Debug.Print("子进程窗口激活成功");
+                sWindowApi.WindowApi.SendMessage(m_process.MainWindowHandle, sWindowApi.WindowApi.m_nUserMsg, 0, 0);
                 //bFlag = false;
             }
             catch
             {
                 Debug.Print("子进程窗口激活成功：进程无效");
             }
-            //}
-            //else
-            //{
-            //    bFlag = true;
-            //}
+        }
 
-            WindowApi.SwitchToThisWindow(this.Handle, true);
-            Debug.Print("激活当前窗口成功");
-            
+        void ActivateThis()
+        {
+            //WindowApi.SwitchToThisWindow(this.Handle, true);
+            //Debug.Print("激活当前窗口成功");
+            this.Activate();
+            m_bActivateThis = true;
         }
 
         private void Form1_Deactivate(object sender, EventArgs e)
         {
             textBox1.Text = "未激活";
+            m_bActivateThis = false;
         }
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
@@ -191,5 +203,24 @@ namespace ProcessDemo
             //OpenHook();
         }
 
+
+
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                case 0x0400 + 100:
+                    //m_bAcivateSub = true;
+                    //if(m_bActivateThis==false)
+                    //{
+                    //    ActivateThis();
+                    //}
+
+
+                    //Debug.Print("接收到子进程窗口激活消息");
+                    break;
+            }
+            base.WndProc(ref m);
+        }
     }
 }

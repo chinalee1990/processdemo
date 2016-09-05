@@ -19,7 +19,7 @@ namespace Tested
             {
                 
             }
-            Form1 mainform = new Form1();
+            CalledForm mainform = new CalledForm();
 
             mainform.SetCmdLine(args);
             Application.Run(mainform);
