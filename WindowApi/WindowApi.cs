@@ -10,6 +10,8 @@ namespace sWindowApi
     public static class WindowApi
     {
         public const int m_nUserMsg = 0x0400+100;
+        public const int m_nActiveMsg = 0x0006;
+        public const int m_nMOUSEACTIVATE = 0x0021;
         [DllImport("user32.dll", EntryPoint = "SwitchToThisWindow")]
         public static extern void SwitchToThisWindow(IntPtr hWnd, bool fAltTab);
 

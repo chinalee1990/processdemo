@@ -113,13 +113,8 @@ namespace ProcessDemo
         {
             try
             {
-                //WindowApi.SetForegroundWindow(m_process.MainWindowHandle);
+                sWindowApi.WindowApi.SetForegroundWindow(m_process.MainWindowHandle);
                 Debug.Print("子进程窗口激活成功");
-                //sWindowApi.WindowApi.SendMessage(m_process.MainWindowHandle, WM_ACTIVATE, 0, 0);
-                //sWindowApi.WindowApi.SetActiveWindow(m_process.MainWindowHandle);
-
-                //int nPosMost = sWindowApi.WindowApi.m_HWND_TOPMOST;
-                //sWindowApi.WindowApi.SetWindowPos(m_process.MainWindowHandle, nPosMost, 0, 0, 0, 0, 1 | 2);
 
                 //bFlag = false;
             }
@@ -143,6 +138,7 @@ namespace ProcessDemo
         {
             textBox1.Text = "未激活";
             m_bActivateThis = false;
+            this.textBox1.Focus();
         }
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
