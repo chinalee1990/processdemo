@@ -40,7 +40,7 @@ namespace Tested
             richTextBox1.Text += strMsg + "\r\n";
 
         }
-
+        
         protected override void WndProc(ref Message m)
         {
             switch(m.Msg)

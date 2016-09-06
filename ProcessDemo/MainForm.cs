@@ -115,7 +115,12 @@ namespace ProcessDemo
             {
                 //WindowApi.SetForegroundWindow(m_process.MainWindowHandle);
                 Debug.Print("子进程窗口激活成功");
-                sWindowApi.WindowApi.SendMessage(m_process.MainWindowHandle, sWindowApi.WindowApi.m_nUserMsg, 0, 0);
+                //sWindowApi.WindowApi.SendMessage(m_process.MainWindowHandle, WM_ACTIVATE, 0, 0);
+                //sWindowApi.WindowApi.SetActiveWindow(m_process.MainWindowHandle);
+
+                //int nPosMost = sWindowApi.WindowApi.m_HWND_TOPMOST;
+                //sWindowApi.WindowApi.SetWindowPos(m_process.MainWindowHandle, nPosMost, 0, 0, 0, 0, 1 | 2);
+
                 //bFlag = false;
             }
             catch
@@ -128,7 +133,9 @@ namespace ProcessDemo
         {
             //WindowApi.SwitchToThisWindow(this.Handle, true);
             //Debug.Print("激活当前窗口成功");
-            this.Activate();
+            sWindowApi.WindowApi.SetForegroundWindow(this.Handle);
+
+            //this.Activate();
             m_bActivateThis = true;
         }
 
