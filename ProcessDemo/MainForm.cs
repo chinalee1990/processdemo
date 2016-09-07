@@ -12,7 +12,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 using sHook;
-
+using System.Threading;
 
 namespace ProcessDemo
 {
@@ -50,6 +50,35 @@ namespace ProcessDemo
             string strInfo = string.Format("127.0.0.1 {0}", this.Height);
             m_process.StartProcess(strPath, strInfo);
             m_process.SetProcessParentWnd(this);
+            SetProcessWindowStyle();
+
+        }
+
+        void SetProcessWindowStyle()
+        {
+            //设置样式
+            //uint dwStyle = GetStyle();//获取旧样式  
+            //uint dwStyle = sWindowApi.WindowApi.GetWindowLong(m_process.Process.MainWindowHandle, sWindowApi.WindowApi.GWL_STYLE);
+            //uint dwNewStyle = sWindowApi.WindowApi.WS_OVERLAPPED | sWindowApi.WindowApi.WS_VISIBLE |
+            //                    sWindowApi.WindowApi.WS_SYSMENU | sWindowApi.WindowApi.WS_MINIMIZEBOX |
+            //                    sWindowApi.WindowApi.WS_MAXIMIZEBOX | sWindowApi.WindowApi.WS_CLIPCHILDREN | sWindowApi.WindowApi.WS_CLIPSIBLINGS;
+            //dwNewStyle &= dwStyle;//按位与将旧样式去掉  
+            //sWindowApi.WindowApi.SetWindowLong(m_process.Process.MainWindowHandle, sWindowApi.WindowApi.GWL_STYLE, (IntPtr)dwNewStyle);//设置成新的样式
+
+            ////设置扩展样式
+            //uint nStyleEx = sWindowApi.WindowApi.GetWindowLong(m_process.Process.MainWindowHandle, sWindowApi.WindowApi.GWL_EXSTYLE);
+            ////uint nStyle = sWindowApi.WindowApi.WS_THICKFRAME | sWindowApi.WindowApi.WS_CHILD;
+            //nStyleEx = nStyleEx & ~(sWindowApi.WindowApi.WS_EX_WINDOWEDGE | sWindowApi.WindowApi.WS_EX_DLGMODALFRAME);
+            //sWindowApi.WindowApi.SetWindowLong(m_process.Process.MainWindowHandle, sWindowApi.WindowApi.GWL_EXSTYLE, (IntPtr)nStyleEx);
+
+            //设置大小
+            uint nStyle = sWindowApi.WindowApi.GetWindowLong(m_process.Process.MainWindowHandle, sWindowApi.WindowApi.GWL_STYLE);
+            //nStyle = nStyle & (~sWindowApi.WindowApi.WS_BORDER);
+            nStyle = sWindowApi.WindowApi.WS_BORDER;
+            sWindowApi.WindowApi.SetWindowLong(m_process.Process.MainWindowHandle, sWindowApi.WindowApi.GWL_STYLE, (IntPtr)nStyle);
+
+            sWindowApi.WindowApi.SetWindowPos(m_process.Process.MainWindowHandle, 0, 0, 0, this.Width, this.Height, sWindowApi.WindowApi.SWP_SHOWWINDOW);
+            sWindowApi.WindowApi.MoveWindow(m_process.Process.MainWindowHandle, 0, 0, this.Width, this.Height, 0);
         }
 
         /// <summary>
@@ -72,12 +101,14 @@ namespace ProcessDemo
         {
             Debug.Print("\r\nForm1_Activated");
             textBox1.Text = "激活";
+            //m_process.SetProcessParentWnd(this);
+
         }
 
         void ActivateThis()
         {
             Debug.Print("激活当前窗口成功");
-            sWindowApi.WindowApi.SetForegroundWindow(this.Handle);
+            //sWindowApi.WindowApi.SetForegroundWindow(this.Handle);
             //this.Activate();
         }
 
