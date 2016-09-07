@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HookLib", "ClassLibrary1\Ho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowApi", "WindowApi\WindowApi.csproj", "{0F72CF97-8FFE-4A95-8763-BCDACC58CC78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessLib", "ProcessLib\ProcessLib.csproj", "{CAE60818-7E2C-4F12-AC34-0BD69202BD06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{0F72CF97-8FFE-4A95-8763-BCDACC58CC78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F72CF97-8FFE-4A95-8763-BCDACC58CC78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F72CF97-8FFE-4A95-8763-BCDACC58CC78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAE60818-7E2C-4F12-AC34-0BD69202BD06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAE60818-7E2C-4F12-AC34-0BD69202BD06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAE60818-7E2C-4F12-AC34-0BD69202BD06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAE60818-7E2C-4F12-AC34-0BD69202BD06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

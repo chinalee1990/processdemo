@@ -46,5 +46,17 @@ namespace sWindowApi
         public const int m_SWP_NOZORDER = 4;        // {忽略 hWndInsertAfter, 保持 Z 顺序}
         public const int m_SWP_NOREDRAW = 8;        //{不重绘}
         public const int SWP_NOACTIVATE = 0x0010;
+
+        [DllImport("User32.dll", EntryPoint = "SetWindowLong")]
+        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+        public const int  GWL_WNDPROC = -4;
+        public const int  GWL_HINSTANCE = -6;
+        public const int  GWL_HWNDPARENT = -8;
+        public const int  GWL_STYLE = -16;
+        public const int  GWL_EXSTYLE = -20;
+        public const int  GWL_USERDATA = -21;
+        public const int  GWL_ID = -12;
+
     }
 }

@@ -17,6 +17,12 @@ namespace Tested
         {
             InitializeComponent();
 
+            int nScreenWidth = Screen.PrimaryScreen.WorkingArea.Width;
+            int nScreenH = Screen.PrimaryScreen.WorkingArea.Height;
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = new Point(0, 0);
+            this.Width = nScreenWidth;
+            this.Height = nScreenH / 2;
             
         }
 
